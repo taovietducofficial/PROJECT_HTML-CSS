@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Form</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .container {
+            width: 100%;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #ff6b6b, #4ecdc4, #45b7d1, #6c5ce7);
+            background-size: 400% 400%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            animation: gradientFlow 12s ease infinite;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: 
+                radial-gradient(circle at center, rgba(255,255,255,0.3) 0%, transparent 50%),
+                radial-gradient(circle at top left, rgba(255,107,107,0.4) 0%, transparent 40%),
+                radial-gradient(circle at bottom right, rgba(78,205,196,0.4) 0%, transparent 40%);
+            animation: shine 20s linear infinite;
+            transform-origin: center;
+        }
+
+        .container::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMSIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjMpIi8+PC9zdmc+');
+            opacity: 0.3;
+            animation: sparkle 10s linear infinite;
+        }
+
+        @keyframes gradientFlow {
+            0% { background-position: 0% 50% }
+            25% { background-position: 50% 100% }
+            50% { background-position: 100% 50% }
+            75% { background-position: 50% 0% }
+            100% { background-position: 0% 50% }
+        }
+
+        @keyframes shine {
+            from { transform: translate(-50%, -50%) rotate(0deg); }
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        @keyframes sparkle {
+            from { background-position: 0 0; }
+            to { background-position: 100% 100%; }
+        }
+
+        form {
+            background: rgba(255, 255, 255, 0.95);
+            display: flex;
+            flex-direction: column;
+            padding: 3vw 4vw;
+            width: 90%;
+            max-width: 600px;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+            backdrop-filter: blur(10px);
+            animation: formAppear 0.8s ease-out;
+            z-index: 1;
+            position: relative;
+        }
+
+        @keyframes formAppear {
+            from {
+                opacity: 0;
+                transform: translateY(-50px) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .logo {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 30px;
+            border-radius: 50%;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+            animation: logoSpin 1.2s ease-out;
+            position: relative;
+        }
+
+        @keyframes logoSpin {
+            from {
+                transform: rotateY(360deg) scale(0.5);
+            }
+            to {
+                transform: rotateY(0) scale(1);
+            }
+        }
+
+        .logo::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(255,255,255,0.2), transparent);
+        }
+
+        .logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .logo:hover img {
+            transform: scale(1.15) rotate(5deg);
+        }
+
+        form h3 {
+            color: #333;
+            font-weight: 800;
+            margin-bottom: 30px;
+            text-align: center;
+            font-size: 28px;
+            letter-spacing: 2px;
+            position: relative;
+            animation: slideIn 0.5s ease-out 0.3s both;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        form h3::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 3px;
+            background: linear-gradient(45deg, #ff5361, #ff2e3d);
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        form input, form textarea {
+            border: 2px solid transparent;
+            margin: 12px 0;
+            padding: 20px;
+            outline: none;
+            background: #f8f9fa;
+            font-size: 16px;
+            border-radius: 10px;
+            transition: all 0.4s ease;
+            transform-origin: left;
+            animation: inputAppear 0.5s ease-out forwards;
+            opacity: 0;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+            z-index: 2;
+            position: relative;
+        }
+
+        form input:nth-child(3) { animation-delay: 0.4s; }
+        form input:nth-child(4) { animation-delay: 0.6s; }
+        form input:nth-child(5) { animation-delay: 0.8s; }
+        form textarea { 
+            animation-delay: 1s;
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        @keyframes inputAppear {
+            from {
+                opacity: 0;
+                transform: scaleX(0.8) translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: scaleX(1) translateY(0);
+            }
+        }
+
+        form input:focus, form textarea:focus {
+            background: #fff;
+            border-color: #4a90e2;
+            box-shadow: 0 0 15px rgba(74,144,226,0.2);
+            transform: translateY(-2px);
+        }
+
+        form button {
+            padding: 18px 30px;
+            background: linear-gradient(45deg, #ff5361, #ff2e3d);
+            color: #fff;
+            font-size: 18px;
+            font-weight: 600;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            width: 180px;
+            margin: 30px auto 0;
+            border-radius: 50px;
+            transition: all 0.4s ease;
+            animation: buttonPulse 2s infinite;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            z-index: 2;
+            position: relative;
+        }
+
+        @keyframes buttonPulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(255,83,97,0.6);
+            }
+            70% {
+                box-shadow: 0 0 0 15px rgba(255,83,97,0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(255,83,97,0);
+            }
+        }
+
+        form button:hover {
+            background: linear-gradient(45deg, #ff2e3d, #ff1f2e);
+            transform: scale(1.05) translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255,83,97,0.4);
+        }
+
+        form button:active {
+            transform: scale(0.95);
+        }
+
+        @media (max-width: 480px) {
+            form {
+                width: 100%;
+                padding: 5vw 6vw;
+            }
+            
+            form button {
+                width: 100%;
+            }
+
+            .logo {
+                width: 100px;
+                height: 100px;
+            }
+
+            form h3 {
+                font-size: 24px;
+            }
+        }
+
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(45deg, #ff5361, #ff2e3d);
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(45deg, #ff2e3d, #ff1f2e);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <form onsubmit="return validateForm()" autocomplete="off">
+            <div class="logo">
+                <img src="https://scontent.fsgn5-9.fna.fbcdn.net/v/t39.30808-6/428629140_122123821286195094_987946793325005882_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeG0-oy0WSTJnwjADgC5yBiWN67ramEzb0E3rutqYTNvQThpH6eBNLqXZ9emGuILVHt2Gf3HRqsKVGJ3OKj4Wbd4&_nc_ohc=E8rcU-lUMWIQ7kNvgHQ8aX8&_nc_zt=23&_nc_ht=scontent.fsgn5-9.fna&_nc_gid=A79bvdKMNi34I6RgkRHCZBu&oh=00_AYC_ZGZRUvwoaQLNptjKLAi-9_TeOJ7Vnqdc1CyVrF5DSA&oe=6745EF8A" alt="Company Logo">
+            </div>
+            <h3>CONTACT US</h3>
+            <input type="text" id="name" placeholder="Your Name" required pattern="[A-Za-z\s]+" title="Please enter a valid name (letters and spaces only)">
+            <input type="email" id="email" placeholder="Email Address" required>
+            <input type="tel" id="phone" placeholder="Phone Number" required pattern="[0-9]{10}" title="Please enter a valid 10-digit phone number">
+            <textarea id="message" rows="4" placeholder="How can we help you?" required minlength="10"></textarea>
+            <button type="submit">Send Message</button>
+        </form>
+    </div>
+
+    <script>
+        function validateForm() {
+            const name = document.getElementById('name');
+            const email = document.getElementById('email');
+            const phone = document.getElementById('phone');
+            const message = document.getElementById('message');
+
+            if (!name.value.match(/^[A-Za-z\s]+$/)) {
+                alert('Please enter a valid name');
+                name.focus();
+                return false;
+            }
+
+            if (!email.value.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+                alert('Please enter a valid email address');
+                email.focus();
+                return false;
+            }
+
+            if (!phone.value.match(/^[0-9]{10}$/)) {
+                alert('Please enter a valid 10-digit phone number');
+                phone.focus();
+                return false;
+            }
+
+            if (message.value.length < 10) {
+                alert('Message must be at least 10 characters long');
+                message.focus();
+                return false;
+            }
+
+            alert('Form submitted successfully!');
+            return true;
+        }
+
+        // Clear form on page load
+        window.onload = function() {
+            document.querySelector('form').reset();
+        }
+    </script>
+</body>
+</html>
